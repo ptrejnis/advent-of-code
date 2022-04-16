@@ -1,0 +1,37 @@
+{
+  "name": "advent-of-code-2021",
+  "version": "1.0.0",
+  "description": "Advent of code 2021",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "build": "npm run lint && rimraf output/ && tsc",
+    "build": "npm run build && node output/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptrejnis/advent-of-code.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ptrejnis/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/ptrejnis/advent-of-code#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.24",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
