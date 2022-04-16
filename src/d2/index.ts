@@ -10,7 +10,7 @@ interface Course {
   course: number;
 }
 
-export function result(moves: string[]): Position {
+function getFinalPosition(moves: string[]): Position {
   const coords = moves.map(getCoords);
   const horizontalMoves = getHorizontal(coords);
   const depthMoves = getDepths(coords);
@@ -35,4 +35,4 @@ const getDepths = (courses: Course[]): Position['depth'][] =>
 
 const calculatePosition = (courseChanges: number[]): number => courseChanges.reduce((curr, acc) => acc + curr, 0);
 
-export const solution = result(exampleCourse);
+export const solution = getFinalPosition(exampleCourse);
