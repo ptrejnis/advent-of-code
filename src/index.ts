@@ -1,4 +1,4 @@
-console.log('TEST');
-import { testD1 } from './d-1';
+import * as d1Solutions from "./d1";
 
-testD1();
+d1Solutions.firstSolution;
+d1Solutions.secondSolution;
