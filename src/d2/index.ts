@@ -7,7 +7,7 @@ const getResult = (moves: string[]): number => calculate(moves.map(getCoords));
 
 const calculate = (coords: CoordsEntries[]): number => {
   const moveOptions: Move[] = ['forward', 'up', 'down'];
-  const coordsMap: Map<Move, number> = new Map(moveOptions.map((move) => getCoordsEntry(coords, move)));
+  const coordsMap: Map<Move, number> = new Map(moveOptions.map((move) => getCoordsEntries(coords, move)));
   const horizontalTotal = coordsMap.get('forward');
   const depth = coordsMap.get('up') + coordsMap.get('down') * -1;
   const depthTotal = depth < 0 ? depth * -1 : depth;
