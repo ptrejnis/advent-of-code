@@ -1,38 +1,38 @@
 const exampleCourse = ['forward 5', 'down 5', 'forward 8', 'up 3', 'down 8', 'forward 2'];
 
-interface Position {
-  horizontal: number;
-  depth: number;
-}
+type Move = 'forward' | 'up' | 'down';
 
-interface Course {
-  position: string;
-  course: number;
-}
-
-function getFinalPosition(moves: string[]): Position {
+function getResult(moves: string[]): number {
   const coords = moves.map(getCoords);
-  const horizontalMoves = getHorizontal(coords);
-  const depthMoves = getDepths(coords);
 
-  return { horizontal: calculatePosition(horizontalMoves), depth: calculatePosition(depthMoves) };
+  return calculate(coords);
 }
 
-const getCoords = (move: string): Course => {
-  const [first, second] = move.split(' ');
-  const [position, course] = [first, parseFloat(second)];
+const calculate = (coords: [Move, number][]): number => {
+  const coordsMap: Map<Move, number> = new Map([
+    getCoordsEntry(coords, 'forward'),
+    getCoordsEntry(coords, 'up'),
+    getCoordsEntry(coords, 'down'),
+  ]);
+  const horizontalTotal = coordsMap.get('forward');
+  const depth = coordsMap.get('up') + coordsMap.get('down') * -1;
+  const depthTotal = depth < 0 ? depth * -1 : depth;
 
-  return { position, course };
+  return horizontalTotal * depthTotal;
 };
 
-const getHorizontal = (courses: Course[]): Position['horizontal'][] =>
-  courses.filter(({ position }) => position === 'forward').map(({ course }) => course);
+const getCoordsEntry = (coords: [Move, number][], move: Move): [Move, number] => [
+  move,
+  coords
+    .filter(([position]) => position === move)
+    .map(([, coords]) => coords)
+    .reduce((curr, acc) => acc + curr, 0),
+];
+const getCoords = (move: string): [Move, number] => {
+  const [position, course] = move.split(' ');
 
-const getDepths = (courses: Course[]): Position['depth'][] =>
-  courses
-    .filter(({ position }) => position === 'up' || position === 'down')
-    .map(({ position, course }) => (position === 'down' ? course * -1 : course));
-
-const calculatePosition = (courseChanges: number[]): number => courseChanges.reduce((curr, acc) => acc + curr, 0);
-
-export const solution = getFinalPosition(exampleCourse);
+  if (position === 'forward' || position === 'up' || position === 'down') {
+    return [position, parseFloat(course)];
+  }
+};
+export const solution = getResult(exampleCourse);
