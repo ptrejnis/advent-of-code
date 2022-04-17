@@ -14,14 +14,14 @@ const exampleReport: string[] = [
 ];
 
 export function getResult(exampleReport: string[]): number {
-  const collectionLength = exampleReport.length;
-  const collectionChunks = exampleReport
+  const reportsLength = exampleReport.length;
+  const reportsChunks = exampleReport
     .map(splitToStringChunks)
     .reduce((curr, acc) => curr.map((value, index) => value + acc[index], []));
-  const getGammaBinary = collectionChunks.map((val) => (checkZeroFrequencyInChunk(val) > collectionLength / 2 ? 0 : 1));
-  const epsilonBinary = collectionChunks.map((val) => (checkZeroFrequencyInChunk(val) < collectionLength / 2 ? 0 : 1));
+  const gammaBinary = reportsChunks.map((val) => (checkZeroFrequencyInChunk(val) > reportsLength / 2 ? 0 : 1));
+  const epsilonBinary = reportsChunks.map((val) => (checkZeroFrequencyInChunk(val) < reportsLength / 2 ? 0 : 1));
 
-  return parseInt(getGammaBinary.join(''), 2) * parseInt(epsilonBinary.join(''), 2);
+  return parseInt(gammaBinary.join(''), 2) * parseInt(epsilonBinary.join(''), 2);
 }
 
 const splitToStringChunks = (item: string) => item.split('');
