@@ -35,11 +35,11 @@ export const run = (async () => {
     });
 
   const calcMoves = (obj: Coords, [key, value]: [keyof MoveCoords, number]): Coords => {
-    const updateCurrentKey = { [key]: obj[key] + value };
+    const currentMove = { [key]: obj[key] + value };
     return switchFn(key, {
-      down: { ...obj, aim: obj.aim + value, ...updateCurrentKey },
-      up: { ...obj, aim: obj.aim - value, ...updateCurrentKey },
-      forward: { ...obj, depth: obj.depth + value * obj.aim, ...updateCurrentKey },
+      down: { ...obj, aim: obj.aim + value, ...currentMove },
+      up: { ...obj, aim: obj.aim - value, ...currentMove },
+      forward: { ...obj, depth: obj.depth + value * obj.aim, ...currentMove },
       default: obj,
     });
   };
