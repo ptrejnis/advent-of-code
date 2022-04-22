@@ -19,15 +19,10 @@ const initialNavCoords: Coords = {
 export const run = (async () => {
   const moves = await readFileCollection(`${__dirname}/file`);
 
-  const calcMoves = (obj: Coords, [key, value]: [keyof MoveCoords, number]): Coords => {
-    const updateCurrentKey = { [key]: obj[key] + value };
-    return switchFn(key, {
-      down: { ...obj, aim: obj.aim + value, ...updateCurrentKey },
-      up: { ...obj, aim: obj.aim - value, ...updateCurrentKey },
-      forward: { ...obj, depth: obj.depth + value * obj.aim, ...updateCurrentKey },
-      default: obj,
-    });
-  };
+  const coordMoves = moves.map((value) => {
+    const [position, val] = value.split(' ');
+    return [position, Number(val)];
+  });
 
   const checkExistingNavCoords = (value: string): boolean =>
     Object.keys(initialNavCoords)
@@ -39,10 +34,16 @@ export const run = (async () => {
       return value.length === 2 && checkExistingNavCoords(value[0]) && typeof parseFloat(value[1]) === 'number';
     });
 
-  const coordMoves = moves.map((value) => {
-    const [position, val] = value.split(' ');
-    return [position, Number(val)];
-  });
+  const calcMoves = (obj: Coords, [key, value]: [keyof MoveCoords, number]): Coords => {
+    const updateCurrentKey = { [key]: obj[key] + value };
+    return switchFn(key, {
+      down: { ...obj, aim: obj.aim + value, ...updateCurrentKey },
+      up: { ...obj, aim: obj.aim - value, ...updateCurrentKey },
+      forward: { ...obj, depth: obj.depth + value * obj.aim, ...updateCurrentKey },
+      default: obj,
+    });
+  };
+
   const coords = (() => {
     return movesAreCoordinates(coordMoves)
       ? coordMoves.reduce(
