@@ -6,13 +6,14 @@ export function switchFn<T extends Record<string, unknown>>(expr: SwitchKeys<T>,
 
   for (const [pattern, action] of entries) {
     if (expr === pattern) {
-      return isFunc(action) ? action() : action;
+      return caseIsArrowFunc(action) ? action() : action;
     }
   }
 
-  return isFunc(cases.default) ? cases.default() : cases.default;
+  const handler = cases.default;
+  return caseIsArrowFunc(handler) ? handler() : handler;
 }
 
-function isFunc(action: unknown): action is Function {
-  return typeof action === 'function';
+function caseIsArrowFunc(action: unknown): action is Function {
+  return typeof action === 'function' && action.prototype === undefined;
 }
